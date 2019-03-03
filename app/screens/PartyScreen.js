@@ -16,18 +16,24 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 export default class PartyScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.setState({inparty: false});
+    this.setState({name: "default"});
+    this.setState({code: "default"});
   }
 
   static navigationOptions = {
     title: 'Party',
   };
 
-  createParty = () => {
+  createParty = async () => {
     var rootref = firebaseApp.database().ref();
     let partycode = Math.random().toString(36).substring(7);
     let partyname = "default";
     this.partiesRef = rootref.getRef().child('parties');
     this.partiesRef.push({code: partycode, name: partyname});
+    this.setState({code: partycode});
+    this.setState({name: partyname});
+    this.setState({inparty: true});
   };
 
   render() {
